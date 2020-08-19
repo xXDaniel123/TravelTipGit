@@ -1,4 +1,3 @@
-
 export const mapService = {
     initMap,
     addMarker,
@@ -14,19 +13,57 @@ export function initMap(lat = 32.0749831, lng = 34.9120554) {
             console.log('google available');
             map = new google.maps.Map(
                 document.querySelector('#map'), {
-                center: { lat, lng },
-                zoom: 15
+                    center: {
+                        lat,
+                        lng
+                    },
+                    zoom: 15
+                })
+
+            // map.addListener('click', function (ev) {
+
+            //         console.log(ev.latLng);
+            //         addMarker()
+            //     }
+            // )
+
+            var myLatlng = {lat: -25.363, lng: 131.044};
+
+            var infoWindow = new google.maps.InfoWindow(
+                {content: 'Click the map to get Lat/Lng!', position: myLatlng});
+            infoWindow.open(map);
+    
+            // Configure the click listener.
+            map.addListener('click', function(mapsMouseEvent) {
+              // Close the current InfoWindow.
+              infoWindow.close();
+    
+              // Create a new InfoWindow.
+              infoWindow = new google.maps.InfoWindow({position: mapsMouseEvent.latLng});
+              infoWindow.setContent(mapsMouseEvent.latLng.toString());
+
+              console.log(mapsMouseEvent.latLng.toString());
+              
+              infoWindow.open(map);
             })
+
+
             console.log('Map!', map);
         })
 }
 
+
 function addMarker(loc) {
+    console.log(loc);
+
     var marker = new google.maps.Marker({
         position: loc,
         map: map,
         title: 'Hello World!'
     });
+
+    console.log(loc);
+
     return marker;
 }
 
@@ -48,6 +85,3 @@ function _connectGoogleApi() {
         elGoogleApi.onerror = () => reject('Google script failed to load')
     })
 }
-
-
-
