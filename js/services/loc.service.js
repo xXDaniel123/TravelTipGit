@@ -1,8 +1,28 @@
 export const locService = {
     getLocs: getLocs,
-    getPosition: getPosition
+    getPosition: getPosition,
+    createLoc: createLoc
 }
-var locs = [{ lat: 11.22, lng: 22.11 }]
+var locs = [{
+    lat: 11.22,
+    lng: 22.11
+}]
+
+// var locations = [];
+
+// check this initiative
+function createLoc(id,name,lat,lng) {
+    var location = {
+        id,
+        name,
+        lat,
+        lng,
+        createdAt: Date.now()
+    }
+    return location
+}
+
+
 
 function getLocs() {
     return new Promise((resolve, reject) => {
@@ -21,4 +41,3 @@ function getPosition() {
         navigator.geolocation.getCurrentPosition(resolve, reject)
     })
 }
-
