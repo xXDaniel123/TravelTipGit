@@ -1,7 +1,10 @@
+// import { axios } from "/axios.js";
+
 export const mapService = {
     initMap,
     addMarker,
-    panTo
+    panTo,
+    getLocByName
 }
 
 var map;
@@ -20,31 +23,31 @@ export function initMap(lat = 32.0749831, lng = 34.9120554) {
                     zoom: 15
                 })
 
-            // map.addListener('click', function (ev) {
+            var myLatlng = {
+                lat: -25.363,
+                lng: 131.044
+            };
 
-            //         console.log(ev.latLng);
-            //         addMarker()
-            //     }
-            // )
-
-            var myLatlng = {lat: -25.363, lng: 131.044};
-
-            var infoWindow = new google.maps.InfoWindow(
-                {content: 'Click the map to get Lat/Lng!', position: myLatlng});
+            var infoWindow = new google.maps.InfoWindow({
+                content: 'Click the map to get Lat/Lng!',
+                position: myLatlng
+            });
             infoWindow.open(map);
-    
-            // Configure the click listener.
-            map.addListener('click', function(mapsMouseEvent) {
-              // Close the current InfoWindow.
-              infoWindow.close();
-    
-              // Create a new InfoWindow.
-              infoWindow = new google.maps.InfoWindow({position: mapsMouseEvent.latLng});
-              infoWindow.setContent(mapsMouseEvent.latLng.toString());
 
-              console.log(mapsMouseEvent.latLng.toString());
-              
-              infoWindow.open(map);
+            // Configure the click listener.
+            map.addListener('click', function (mapsMouseEvent) {
+                // Close the current InfoWindow.
+                infoWindow.close();
+
+                // Create a new InfoWindow.
+                infoWindow = new google.maps.InfoWindow({
+                    position: mapsMouseEvent.latLng
+                });
+                infoWindow.setContent(mapsMouseEvent.latLng.toString());
+
+                console.log(mapsMouseEvent.latLng.toString());
+
+                infoWindow.open(map);
             })
 
 
@@ -84,4 +87,9 @@ function _connectGoogleApi() {
         elGoogleApi.onload = resolve;
         elGoogleApi.onerror = () => reject('Google script failed to load')
     })
+}
+
+function getLocByName(name) {
+    return axios.get(`https://maps.googleapis.com/maps/api/geocode/json?address=${name}&key=AIzaSyAF2EehLdv2eHecIyIWYebf5-3EBo0r_DY`)
+        .then(res => res.data)
 }
