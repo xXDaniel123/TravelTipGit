@@ -3,6 +3,7 @@ export const locService = {
     getPosition: getPosition,
     createLoc: createLoc
 }
+
 var locs = [{
     lat: 11.22,
     lng: 22.11
@@ -11,14 +12,15 @@ var locs = [{
 // var locations = [];
 
 // check this initiative
-function createLoc(id,name,lat,lng) {
+function createLoc(name,lat,lng) {
     var location = {
-        id,
+        id: makeId(),
         name,
         lat,
         lng,
         createdAt: Date.now()
     }
+    console.log(location);
     return location
 }
 
@@ -41,3 +43,16 @@ function getPosition() {
         navigator.geolocation.getCurrentPosition(resolve, reject)
     })
 }
+
+
+
+// will be in util file later
+
+function makeId(length=4) {
+    var txt = '';
+    var possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    for(var i=0; i < length; i++) {
+        txt += possible.charAt(Math.floor(Math.random() * possible.length));
+    }
+    return txt;
+} 

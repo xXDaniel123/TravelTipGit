@@ -65,7 +65,7 @@ document.querySelector('.my-location').addEventListener('click', (ev) => {
                     lng: position.coords.longitude
                 };
                 infoWindow.setPosition(pos);
-                infoWindow.setContent("Location found.");
+                infoWindow.setContent('found you');
                 infoWindow.open(map);
                 map.setCenter(pos);
                 console.log(pos)
@@ -90,25 +90,15 @@ function handleLocationError(browserHasGeolocation, infoWindow, pos) {
     infoWindow.open(map);
 };
 
-        document.querySelector('.go').addEventListener('click', onShowLoc)
-}
+//--------------------PAN TO INPUT LOCATION----------------------//
 
-// document.querySelector('.btn').addEventListener('click', (ev) => {
-//     console.log('Aha!', ev.target);
-//     mapService.panTo(35.6895, 139.6917);
-// })
 
-function onShowLoc(){
+document.querySelector('.go').addEventListener('click', onShowLoc)
 
-    const elInput =  document.querySelector('.text-field')
-    console.log(elInput.value);
-    
+function onShowLoc() {
+    const elInput = document.querySelector('.text-field')
     mapService.getLocByName(elInput.value)
-        .then(res => res.data)
-        .then(console.log(res.data))
+        .then(res => mapService.panTo(res.lat,res.lng))
 
-
-    // console.log(elInput.value);
-    // mapService.panTo(35.6895, 139.6917);
-
+        // createLoc(name,lat,lng)
 }

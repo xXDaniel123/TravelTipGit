@@ -89,7 +89,7 @@ function _connectGoogleApi() {
     })
 }
 
-function getLocByName(name) {
+function getLocByName(name) {    
     return axios.get(`https://maps.googleapis.com/maps/api/geocode/json?address=${name}&key=AIzaSyAF2EehLdv2eHecIyIWYebf5-3EBo0r_DY`)
-        .then(res => res.data)
+        .then(res => res.data.results[0].geometry.location)
 }
